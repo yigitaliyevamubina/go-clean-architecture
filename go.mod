@@ -1,6 +1,6 @@
 module fourth-exam/post-service-clean-arch
 
-go 1.23
+go 1.22.2
 
 require (
 	github.com/Eun/go-hit v0.5.23
