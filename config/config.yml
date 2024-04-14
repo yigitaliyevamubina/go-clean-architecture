@@ -1,0 +1,14 @@
+app:
+  name: 'go-post-service'
+  version: '1.0.0'
+
+http:
+  port: '8080'
+
+logger:
+  log_level: 'debug'
+  rollbar_env: 'go-post-service'
+
+postgres:
+  pool_max: 2 
+  pg_url: 'postgres://postgres:mubina2007@localhost:5432/socialdb'

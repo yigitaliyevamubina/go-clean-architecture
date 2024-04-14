@@ -1,0 +1,328 @@
+basePath: /v1
+definitions:
+  entity.MessageResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  entity.Post:
+    properties:
+      category:
+        type: string
+      content:
+        type: string
+      created_at:
+        type: string
+      dislikes:
+        type: integer
+      id:
+        type: string
+      likes:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+      views:
+        type: integer
+    type: object
+  entity.PostRequest:
+    properties:
+      post_id:
+        type: string
+    type: object
+  entity.Posts:
+    properties:
+      count:
+        type: integer
+      posts:
+        items:
+          $ref: '#/definitions/entity.Post'
+        type: array
+    type: object
+  v1.response:
+    properties:
+      error:
+        example: message
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Post service
+  title: Go Clean Post API
+  version: "1.0"
+paths:
+  /post/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get post
+      parameters:
+      - description: Id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: get post by id
+      tags:
+      - Post
+  /post/create:
+    post:
+      consumes:
+      - application/json
+      description: Insert a new post with provided details
+      parameters:
+      - description: Create post
+        in: body
+        name: PostDetails
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Post'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: create post
+      tags:
+      - Post
+  /post/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete post
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.MessageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: delete post
+      tags:
+      - Post
+  /post/dislike:
+    put:
+      consumes:
+      - application/json
+      description: Like post
+      parameters:
+      - description: Dislike Post
+        in: body
+        name: post_id
+        required: true
+        schema:
+          $ref: '#/definitions/entity.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: like post
+      tags:
+      - Post
+  /post/like:
+    put:
+      consumes:
+      - application/json
+      description: Like post
+      parameters:
+      - description: Like Post
+        in: body
+        name: post_id
+        required: true
+        schema:
+          $ref: '#/definitions/entity.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: like post
+      tags:
+      - Post
+  /post/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update post
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update Post
+        in: body
+        name: PostInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Post'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: update post
+      tags:
+      - Post
+  /posts/{page}/{limit}:
+    get:
+      consumes:
+      - application/json
+      description: get all posts
+      parameters:
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit
+        in: path
+        name: limit
+        required: true
+        type: string
+      - description: orderBy
+        enum:
+        - content
+        - title
+        - category
+        in: query
+        name: orderBy
+        type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Posts'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: get all posts
+      tags:
+      - Post
+  /posts/{page}/{limit}/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: get all posts by user id
+      parameters:
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit
+        in: path
+        name: limit
+        required: true
+        type: string
+      - description: orderBy
+        enum:
+        - content
+        - title
+        - category
+        - created_at
+        - updated_at
+        in: query
+        name: orderBy
+        type: string
+      - description: user_id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.Posts'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: get all posts
+      tags:
+      - Post
+swagger: "2.0"
